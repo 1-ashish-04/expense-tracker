@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    'categories',
+    'accounts',
+    'transactions',
+    'reports',
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_spectacular',
@@ -147,4 +151,10 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Expense Tracker API",
+    "DESCRIPTION": "Personal Expense Tracker Backend API",
+    "VERSION": "1.0.0",
 }
