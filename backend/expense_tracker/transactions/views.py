@@ -10,9 +10,37 @@ from .services import (
     reverse_transaction,
 )
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
+from rest_framework.filters import OrderingFilter
+
+
+
 class TransactionViewSet(viewsets.ModelViewSet):
 
     serializer_class = TransactionSerializer
+
+    filter_backends = [
+        DjangoFilterBackend,
+        SearchFilter,
+        OrderingFilter,
+    ]
+
+    filterset_fields = [
+        "transaction_type",
+        "account",
+        "category",
+    ]
+
+    search_fields = [
+        "description",
+    ]
+
+    ordering_fields = [
+        "amount",
+        "transaction_date",
+        "created_at",
+    ]
 
     def get_queryset(self):
 
@@ -55,10 +83,14 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
         old_transaction = self.get_object()
 
+        old_account = old_transaction.account
+        old_type = old_transaction.transaction_type
+        old_amount = old_transaction.amount
+
         reverse_transaction(
-            old_transaction.account,
-            old_transaction.transaction_type,
-            old_transaction.amount
+            old_account,
+            old_type,
+            old_amount
         )
 
         updated_transaction = serializer.save()
