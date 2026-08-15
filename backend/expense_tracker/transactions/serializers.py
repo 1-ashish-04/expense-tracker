@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Transaction
-
+from datetime import date
 
 class TransactionSerializer(serializers.ModelSerializer):
 
@@ -21,6 +21,12 @@ class TransactionSerializer(serializers.ModelSerializer):
             "id",
             "created_at",
         ]
+
+
+    def validate_transaction_date(self, value):
+        if value > date.today():
+            raise serializers.ValidationError("The date cannot be in the future.")
+        return value
 
     def validate(self, attrs):
 
