@@ -15,3 +15,17 @@ class CategorySerializer(serializers.ModelSerializer):
             "id",
             "created_at",
         ]
+
+    def validate_name(self, value):
+        request = self.context["request"]
+        queryset = Category.objects.filter(
+            user=request.user,
+            name__iexact=value.strip(),
+        )
+        if self.instance:
+            queryset = queryset.exclude(pk=self.instance.pk)
+        if queryset.exists():
+            raise serializers.ValidationError(
+                "You already have a category with this name."
+            )
+        return value.strip()

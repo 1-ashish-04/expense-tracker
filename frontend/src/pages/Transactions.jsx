@@ -98,6 +98,10 @@ export default function Transactions() {
       setFormError('Amount must be greater than zero.');
       return;
     }
+    if (form.transaction_date > new Date().toISOString().slice(0, 10)) {
+      setFormError('Date cannot be in the future.');
+      return;
+    }
 
     setSubmitting(true);
     try {
@@ -302,6 +306,7 @@ export default function Transactions() {
               <input
                 id="date"
                 type="date"
+                max={new Date().toISOString().slice(0, 10)}
                 value={form.transaction_date}
                 onChange={(e) => setForm({ ...form, transaction_date: e.target.value })}
                 required
