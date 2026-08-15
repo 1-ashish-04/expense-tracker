@@ -20,9 +20,12 @@ frontend/                  — React app (see frontend/README.md)
 
 **1. Backend**
 ```bash
-cd backend/expense_tracker
-python -m venv venv && source venv/bin/activate
+cd backend
+python -m venv .venv
+.venv\Scripts\activate        # source .venv/bin/activate
 pip install -r requirements.txt
+
+cd expense_tracker
 cp .env.example .env
 python manage.py migrate
 python manage.py runserver
